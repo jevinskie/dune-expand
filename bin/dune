@@ -1,0 +1,5 @@
+(executable
+ (name expand)
+ (public_name opam-dune-expand)
+ (libraries dune_expand_lib cmdliner core unix sexplib compiler-libs.common)
+ (preprocess (pps ppx_sexp_conv ppx_deriving.std)))
