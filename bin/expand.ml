@@ -27,16 +27,18 @@ let expand module_ =
     Format.printf "%a\n;;\n%!" Pprintast.structure ast in
   setup_expand_context @@ fun hashtbl ->
   match module_ with
-  | None ->
+  | [] ->
     Hashtbl.iteri hashtbl ~f:(fun ~key:mod_ ~data:(_, lazy ast) ->
       print_ast mod_ ast
     )
-  | Some module_ ->
-    let raw_module_ = mangle_name module_ in
-    match Hashtbl.find hashtbl raw_module_ with
-    | None -> failwith ("module " ^ module_ ^ " not found in project")
-    | Some (_, lazy ast) ->
-      print_ast raw_module_ ast
+  | modules ->
+    List.iter modules ~f:(fun module_ ->
+      let raw_module_ = mangle_name module_ in
+      match Hashtbl.find hashtbl raw_module_ with
+      | None -> Printf.exitf "Error: module %s not found in project." module_ ()
+      | Some (_, lazy ast) ->
+        print_ast raw_module_ ast
+    )
 
 let list_modules () =
   setup_expand_context @@ fun hashtbl ->
@@ -61,11 +63,11 @@ let () =
     let module_ =
       let info' =
         Arg.info
-          ~doc:"(optional) OCaml module (path) to expand. If not \
+          ~doc:"(optional) OCaml modules (paths) to expand. If not \
                 provided, dune-expand expands all modules in the \
                 project."
-          ~docv:"MODULE" ["m"; "module"] in
-      Arg.(value @@ opt (some string) None info') in
+          ~docv:"MODULES" [] in
+      Arg.(value @@ pos_all string [] info') in
     Term.(pure main $ list_ $ module_) in
   let default_info = Term.info
                   ~doc:"Pretty prints the expanded output of OCaml \
