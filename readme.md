@@ -1,10 +1,10 @@
 # opam Dune-expand
 
-opam plugin to expand PPXs in dune-based projects.
+Tool to expand PPXs in dune-based projects.
 
 Run:
 ```
-opam dune-expand
+dune-expand
 ```
 Output:
 ```
