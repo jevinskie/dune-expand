@@ -28,7 +28,7 @@ NAME
        in a dune-based OCaml project.
 
 SYNOPSIS
-       dune-expand [OPTION]... 
+       dune-expand [OPTION]...
 
 OPTIONS
        --help[=FMT] (default=auto)
