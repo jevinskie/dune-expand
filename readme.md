@@ -17,6 +17,9 @@ module Dune_expand_lib.Dune_spec:
 ;;
 ```
 
+## Fork notice
+This was forked to work with newer OCaml versions from [Kiran Gopinathan's original repo](https://gitlab.com/gopiandcode/dune-expand).
+
 ## Usage
 
 ```
