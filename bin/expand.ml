@@ -20,7 +20,7 @@ let try_unmangle_name name =
 
 let setup_expand_context fn =
   Navigation.change_to_dune_root ();
-  let input = Unix.open_process_in "dune describe" in
+  let input = Core_unix.open_process_in "dune describe" in
   let sexp = Sexplib.Sexp.input_sexp input in
   let hashtbl = Hashtbl.create (module String) in
   (* accumulate all modules (lazily) *)
@@ -73,17 +73,17 @@ let () =
       in
       Arg.(value @@ pos_all string [] info')
     in
-    Term.(pure main $ list_ $ module_)
+    Term.(const main $ list_ $ module_)
   in
   let default_info =
-    Term.info
+    Cmd.info
       ~doc:
         "Pretty prints the expanded output of OCaml source files in a \
          dune-based OCaml project."
       ~version:"%%VERSION%%"
       ~envs:
         [
-          Term.env_info
+          Cmd.Env.info
             ~doc:
               "Integer representing the maximum number of directories to \
                search through to find the dune-project root before giving up."
@@ -91,4 +91,5 @@ let () =
         ]
       "dune-expand"
   in
-  Term.(exit @@ eval ~catch:true (main_command, default_info))
+  let cmd = Cmd.v default_info main_command in
+  Stdlib.(exit @@ Cmd.eval ~catch:true cmd)

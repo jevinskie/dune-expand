@@ -1,4 +1,4 @@
-(lang dune 2.8)
+(lang dune 3.12)
 
 (package
  (name dune-expand)
@@ -7,15 +7,17 @@
   "dune-expand is a tool that allows users to view the expanded output of PPXs on their source files.")
  (depends
   (sexplib
-   (>= ~))
+   (>= 0.15.0))
   (ppx_sexp_conv
-   (>= ~))
+   (>= 0.15.0))
   (ppx_deriving
-   (>= ~))
+   (>= 5.0))
   (core
-   (>= ~))
+   (>= 0.15.0))
+  (core_unix
+   (>= 0.15.0))
   (cmdliner
-   (>= 1.0.0))
+   (>= 1.1.0))
   (ocaml
    (>= 4.11.0))))
 

@@ -2,11 +2,7 @@ open Core
 
 type module_summary = { source_path : string; ast : Parsetree.structure Lazy.t }
 
-let file_exists file =
-  try
-    ignore @@ Unix.stat file;
-    true
-  with Unix.Unix_error _ -> false
+let file_exists file = Core.Result.is_ok (Core_unix.access file [ `Read ])
 
 let read_ast path =
   In_channel.with_file path ~f:(fun in_channel ->
