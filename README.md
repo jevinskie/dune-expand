@@ -1,4 +1,4 @@
-# opam Dune-expand
+# opam dune-expand
 
 Tool to expand PPXs in dune-based projects.
 
